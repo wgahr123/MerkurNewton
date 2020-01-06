@@ -8,6 +8,8 @@ Python >= 3.7.5 and some installed Visual Studio or MSBuild environment is neede
 
 Use the python script _build_MerkurNewton.py_ to clone all from repositories and compile the executable _MerkurNewton.exe_.
 
+Download it with https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py.
+
 #### Help for build_MerkurNewton.py
 
     PS S:\Projekte\MerkurNewton> python .\build_MerkurNewton.py --help
