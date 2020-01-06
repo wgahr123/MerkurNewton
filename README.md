@@ -1,7 +1,14 @@
 # MerkurNewton
 Just for fun the simulation of mercurys orbit.
 
-Computed with mpir and mpfr with 200 digits accuracy (default).
+Using the following libraries/sources:
+* https://github.com/wbhart/mpir
+* https://github.com/BrianGladman/mpir
+* https://github.com/BrianGladman/mpfr
+* https://github.com/jarro2783/cxxopts.
+
+Please note the licenses of these packages.<br/>
+My own contribution is licensed here: https://github.com/wgahr123/MerkurNewton/blob/master/LICENSE.md
 
 ## Compilation on Windows10
 Python >= 3.7.5 and some installed Visual Studio or MSBuild environment is needed.
