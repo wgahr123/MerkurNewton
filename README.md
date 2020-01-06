@@ -6,9 +6,9 @@ Computed with mpir and mpfr with 200 digits accuracy (default).
 ## Compilation on Windows10
 Python >= 3.7.5 and some installed Visual Studio or MSBuild environment is needed.
 
-Use the python script _build_MerkurNewton.py_ to clone all from repositories and compile the executable _MerkurNewton.exe_.
-
-Download it with https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py.
+Call the python script _build_MerkurNewton.py_ to clone and compile all to create the executable _MerkurNewton.exe_.
+Download the script with a right click on the following link: 
+https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py
 
 #### Help for build_MerkurNewton.py
 
