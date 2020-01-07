@@ -38,6 +38,7 @@ const std::string TIMESTEP = "1"; // s
 const std::string NUMBER_OF_ORBITS = "3";
 const std::string METHOD = "3";
 const std::string VIEW = "30"; // timesteps
+const std::string PRECISION = "160";
 
 const unsigned int INTERVAL_TO_SAY_HELLO = 2; // s
 
@@ -59,8 +60,9 @@ typedef struct
     std::string timestep = "";      // will be converted to mpfr
     int number_of_orbits = 0;
     int method = 0;
-    std::string view = "";          // will be converted to mpfr
+    int view = 0;
     int width_help_line = 0;
+    int precision = 0;
 } args_t;
 
 std::string get_basename(std::string path)
@@ -97,8 +99,10 @@ args_t parse_arguments(int argc, char** argv)
                 "Method 2:\tsteps with quadratic simulation\n"
                 "Method 3:\tsteps with quadratic simulation and\n\t\taverage of accelerations",
                 cxxopts::value<int>(args.method)->default_value(METHOD))(
-                "v,view", "Print results in range -val..+val timesteps at the perihel", 
-                cxxopts::value<std::string>(args.view)->default_value(VIEW));
+                "v,view", "Print results in range -val..+val timesteps at the perihel",
+                cxxopts::value<int>(args.view)->default_value(VIEW))(
+                "p,precision", "Set precision for mpir/mpfr in bits (default: 160 bits)",
+                cxxopts::value<int>(args.precision)->default_value(PRECISION));
 
         auto result = options.parse(argc, argv);
 
@@ -116,7 +120,9 @@ args_t parse_arguments(int argc, char** argv)
             msg = "error: timestep must be greater than 0 seconds";
         if (args.number_of_orbits < 0) msg = "error: number of orbits must be greater or equal 0";
         if (1 > args.method || args.method > 3) msg = "error: method must be 1, 2, or 3";
-        if (std::atof(args.view.c_str()) < 0) msg = "error: view must be greater than 0 arcsecs";
+        if (args.view < 0) msg = "error: view must be greater than 0 arcsecs";
+        if (args.precision < 32)
+            msg = "error: precision must be greater than 31 bits";
 
         if (msg.length() > 0)
         {
@@ -138,7 +144,7 @@ inline void get_angle(const vector2& vec, real& angle)
     angle = atan2(vec.y(), vec.x());
 }
 
-inline void get_angle_double(const vector2& vec, double& angle) 
+inline void get_angle_double(const vector2& vec, double& angle)
 // angle between +x-axis and vector2, in rad.
 // in double
 {
@@ -395,9 +401,9 @@ std::string get_processtime_str()
     secs = floor(processTime - mins*60);
 
     sstr << std::setfill('0') << std::setw(2) << hours << ':'
-        << std::setfill('0') << std::setw(2) << mins << ':'
-        << std::setfill('0') << std::setw(2) << secs << '.'
-        << std::setfill('0') << std::setw(3) << msecs;
+         << std::setfill('0') << std::setw(2) << mins << ':'
+         << std::setfill('0') << std::setw(2) << secs << '.'
+         << std::setfill('0') << std::setw(3) << msecs;
 
     std::string str;
     sstr >> str;
@@ -424,17 +430,19 @@ bool its_time_to_say_hello(unsigned int interval)
 
 int main(int argc, char* argv[])
 {
+    auto args = parse_arguments(argc, argv);
+
     std::cerr
 #ifdef _MSC_FULL_VER
         << "compiled with Visual Studio compiler version " << _MSC_FULL_VER << " on " << __DATE__ << " at " << __TIME__ << std::endl
 #endif
         << "using lib_mpir (lib_mpir_haswell_avx from https://github.com/KevinHake/mpir.git)" << std::endl
         << "using lib_mpfr (lib_mpfr from https://github.com/BrianGladman/mpfr.git)" << std::endl
-        << "using mpir and mpfr with 200 digits" << std::endl
+        << "using mpir and mpfr with " << args.precision << " bits" << std::endl
         << "using cxxopts.hpp from https://github.com/jarro2783/cxxopts" << std::endl
         << std::endl;
 
-    auto args = parse_arguments(argc, argv);
+    real::set_precision(args.precision);
 
     vector2 radius(DistancePerihelion, Null);
     vector2 velocity(Null, VelocityPerihelion);
@@ -486,7 +494,7 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    size_t view(atoi(args.view.c_str()));
+    size_t view(args.view);
     if (view < 0)
     {
         std::cerr << "view must be > 0 timesteps" << std::endl;

@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string>
 
-const int REAL_PRECISION = 200; // digits
+const int REAL_PRECISION = 160; // bits
 const int SIZE_TEXTLINE = 2000;
 const int NUMBER_OF_LINES = 20;
 
@@ -31,42 +31,48 @@ class CReal
 {
 protected:
 #ifdef WIN32
-    __declspec(align(32)) 
-#endif        
+    __declspec(align(32))
+#endif
     mpfr_t m_value;
+    static int m_precision;
 
 public:
+    static void set_precision(int precision)
+    {
+        m_precision = precision;
+    }
+
     CReal(const mpfr_t& val)
     {
-        mpfr_init2(m_value, REAL_PRECISION);
+        mpfr_init2(m_value, m_precision);
         int r = mpfr_set(m_value, val, MPFR_RNDF);
         PRINTF1("new");
     }
 
     CReal(const char* str = "0")
     {
-        mpfr_init2(m_value, REAL_PRECISION);
+        mpfr_init2(m_value, m_precision);
         int r = mpfr_set_str(m_value, str, 10, MPFR_RNDF);
         PRINTF1("new");
     }
 
     CReal(const int val)
     {
-        mpfr_init2(m_value, REAL_PRECISION);
+        mpfr_init2(m_value, m_precision);
         int r = mpfr_set_si(m_value, val, MPFR_RNDF);
         PRINTF1("new");
     }
 
     CReal(const size_t val)
     {
-        mpfr_init2(m_value, REAL_PRECISION);
+        mpfr_init2(m_value, m_precision);
         int r = mpfr_set_ui(m_value, static_cast<unsigned long>(val), MPFR_RNDF);
         PRINTF1("new");
     }
 
     CReal(const CReal& val)
     {
-        mpfr_init2(m_value, REAL_PRECISION);
+        mpfr_init2(m_value, m_precision);
         int r = mpfr_set(m_value, val.m_value, MPFR_RNDF);
         PRINTF2(val, "old from CReal");
         PRINTF1("new from CReal");
@@ -85,9 +91,9 @@ public:
         mpfr_clear(m_value);
     }
 
-    void value(mpfr_ptr p_value) 
-    { 
-         mpfr_set(p_value, m_value, MPFR_RNDN); 
+    void value(mpfr_ptr p_value)
+    {
+         mpfr_set(p_value, m_value, MPFR_RNDN);
     }
 
     int printf(const char* format) const
@@ -300,6 +306,8 @@ public:
         return line;
     }
 };
+
+int CReal::m_precision = REAL_PRECISION;
 
 typedef CReal real;
 
