@@ -43,9 +43,6 @@ https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py
       -n, --nocolor         Dont colorize messages.
       --repo_author_mpir {BrianGladman,KevinHake}
                             Choose from list. Default is "KevinHake".
-      -a ACCURACY, --accuracy ACCURACY
-                            Number of digits used by mpir/mpfr. Default: 200
-                            digits
 
 #### How to Use
 
