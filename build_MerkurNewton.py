@@ -49,11 +49,21 @@ REPOS = { 'mpir-BrianGladman': { 'repo': 'https://github.com/BrianGladman/mpir.g
                               'subdir': ['build.vc15', 'build.vc16'], # copy
                               'projects': ['lib_mpir_haswell_avx', 'lib_mpir_cxx'],
                               'patches': { '.*\.vcxproj': [
-                                                            ('prebuild haswell\\avx x64 15', 'prebuild haswell\\avx x64 16'),
-                                                            ('postbuild "$(TargetPath)" 15', 'postbuild "$(TargetPath)" 16'),
-                                                            ('check_config $(Platform) $(Configuration) 15</Command>','check_config $(Platform) $(Configuration) 16</Command>'),
-                                                            ('$(SolutionDir)$(IntDir)lib_speed.lib','$(SolutionDir)..\\lib_speed\\$(IntDir)lib_speed.lib'),
-                                                            ('$(OutDir)lib_speed.lib', '$(SolutionDir)..\\lib_speed\\$(IntDir)lib_speed.lib'),
+                                                            ( 'prebuild haswell\\avx x64 15',
+                                                              'prebuild haswell\\avx x64 16'
+                                                            ),
+                                                            ( 'postbuild "$(TargetPath)" 15',
+                                                              'postbuild "$(TargetPath)" 16'
+                                                            ),
+                                                            ( 'check_config $(Platform) $(Configuration) 15</Command>',
+                                                              'check_config $(Platform) $(Configuration) 16</Command>'
+                                                            ),
+                                                            ( '$(SolutionDir)$(IntDir)lib_speed.lib',
+                                                              '$(SolutionDir)..\\lib_speed\\$(IntDir)lib_speed.lib'
+                                                            ),
+                                                            ( '$(OutDir)lib_speed.lib',
+                                                              '$(SolutionDir)..\\lib_speed\\$(IntDir)lib_speed.lib'
+                                                            ),
                                                           ],
                                          }
                             },
@@ -61,9 +71,13 @@ REPOS = { 'mpir-BrianGladman': { 'repo': 'https://github.com/BrianGladman/mpir.g
                     'branch': 'master',
                     'subdir': ['build.vs19'],
                     'projects': ['lib_mpfr'],
-                    'patches': { '.*\.vcxproj': [ ('<PlatformToolset>v141</PlatformToolset>', '<PlatformToolset>v142</PlatformToolset>'),
-                                                  ('</ProjectGuid>', '</ProjectGuid><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>'),
-                                                ],
+                    'patches': { #'.*\.vcxproj': [ ( '<PlatformToolset>v141</PlatformToolset>',
+                                 #                   '<PlatformToolset>v142</PlatformToolset>'
+                                 #                 ),
+                                 #                 ( '</ProjectGuid>',
+                                 #                   '</ProjectGuid><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>'
+                                 #                 ),
+                                 #               ],
                                }
                   },
           'MerkurNewton': { 'repo': 'https://github.com/wgahr123/MerkurNewton.git',
@@ -854,15 +868,7 @@ def build_MerkurNewton(options, compile_command, compile_environ):
             with open(using_mpfr, 'r') as fh:
                 define_mpfr = fh.read()
             message.verbose('using mpfr: {}'.format(define_mpfr))
-            apply_patches( {'MerkurNewton.cpp': [ ('"using lib_mpfr"', '"{}"'.format(define_mpfr)),
-                                                  ('using mpir and mpfr with 200 digits',
-                                                   'using mpir and mpfr with {} digits'.format(options.accuracy)
-                                                  ),
-                                                ]
-                           },
-                           workingdir
-                         )
-            apply_patches({'real.hpp': [('REAL_PRECISION = 200;', 'REAL_PRECISION = {};'.format(options.accuracy))]}, workingdir)
+            apply_patches( {'MerkurNewton.cpp': [ ('"using lib_mpfr"', '"{}"'.format(define_mpfr))]}, workingdir)
 
         compile(repodesc['projects'], workingdir, compile_command, compile_environ, logfile)
         copy_results(os.path.join(workingdir, 'MerkurNewton', 'x64', 'Release'), name, quiet=True)
@@ -921,8 +927,6 @@ def parse_commandline():
     parser.add_argument('-n', '--nocolor', action='store_true', help='Dont colorize messages.')
     parser.add_argument('--repo_author_mpir', choices=['BrianGladman', 'KevinHake'], default='KevinHake',
                         help='Choose from list. Default is "KevinHake".')
-    parser.add_argument('-a', '--accuracy', action='store', default='200', type=check_positive,
-                        help='Number of digits used by mpir/mpfr. Default: 200 digits')
 
     args = parser.parse_args()
 
