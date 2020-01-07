@@ -84,28 +84,25 @@ https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py
                                             average of accelerations (default: 3)
       -v, --view arg              Print results in range -val..+val timesteps at
                                   the perihel (default: 30)
-    
+      -p, --precision arg         Set precision for mpir/mpfr in bits (default: 160)
+                              
     .. script calls _MerkurNewton.exe_ with defaults to check if the results are correct:
-    compiled with Visual Studio compiler version 192428314 on Jan  6 2020 at 16:24:33
+    compiled with Visual Studio compiler version 192428314 on Jan  7 2020 at 20:57:07
     using lib_mpir (lib_mpir_haswell_avx from https://github.com/KevinHake/mpir.git)
     using lib_mpfr (lib_mpfr from https://github.com/BrianGladman/mpfr.git)
-    using mpir and mpfr with 200 digits
+    using mpir and mpfr with 160 bits
     using cxxopts.hpp from https://github.com/jarro2783/cxxopts
     
     args.timestep: 1
     timeStep [sec]: 1.00000000000000000000
     orbit 0
     orbit 1 00:00:00.000 [0 days]; 0 deg;
-    orbit 1 00:00:02.000 [8 days]; 52.2352 deg;
-    orbit 1 00:00:04.000 [17 days]; 94.9302 deg;
-    orbit 1 00:00:06.000 [26 days]; 128.661 deg;
-    orbit 1 00:00:08.000 [35 days]; 155.219 deg;
-    orbit 1 00:00:10.000 [43 days]; 179.723 deg;
-    orbit 1 00:00:12.000 [52 days]; -156.294 deg;
-    orbit 1 00:00:14.000 [61 days]; -129.618 deg;
-    orbit 1 00:00:16.000 [69 days]; -97.9039 deg;
-    orbit 1 00:00:18.000 [78 days]; -58.402 deg;
-    orbit 1 00:00:20.000 [86 days]; -7.67661 deg;
+    orbit 1 00:00:02.000 [12 days]; 70.1261 deg;
+    orbit 1 00:00:04.000 [25 days]; 124.071 deg;
+    orbit 1 00:00:06.000 [38 days]; 164.385 deg;
+    orbit 1 00:00:08.000 [51 days]; -159.365 deg;
+    orbit 1 00:00:12.000 [76 days]; -67.3666 deg;
     orbit 1
-    [INFO] test succeeded                                                                                                                 [INFO] S:\Projekte\MerkurNewton\build\MerkurNewton\bin\MerkurNewton.exe is ready to use
+    [INFO] test succeeded
+    [INFO] S:\Projekte\MerkurNewton\build\MerkurNewton\bin\MerkurNewton.exe is ready to use
     PS S:\Projekte\MerkurNewton>
