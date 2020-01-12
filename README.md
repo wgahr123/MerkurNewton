@@ -62,7 +62,7 @@ https://github.com/wgahr123/MerkurNewton/raw/master/build_MerkurNewton.py
     compiled with Visual Studio compiler version 192428314 on Jan  6 2020 at 16:24:33
     using lib_mpir (lib_mpir_haswell_avx from https://github.com/KevinHake/mpir.git)
     using lib_mpfr (lib_mpfr from https://github.com/BrianGladman/mpfr.git)
-    using mpir and mpfr with 200 digits
+    using mpir and mpfr with 160 bits
     using cxxopts.hpp from https://github.com/jarro2783/cxxopts
 
     .. script calls _MerkurNewton.exe --help_ to check if it is running:
