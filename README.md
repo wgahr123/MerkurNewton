@@ -11,7 +11,7 @@ Please note the licenses of these packages.<br/>
 My own contribution is licensed here: https://github.com/wgahr123/MerkurNewton/blob/master/LICENSE.md
 
 ## Compilation on Windows10
-Python >= 3.7.5 and some installed Visual Studio or MSBuild environment is needed.
+Python >= 3.7 and some installed Visual Studio or MSBuild environment is needed.
 
 Call the python script _build_MerkurNewton.py_ to clone and compile all to create the executable _MerkurNewton.exe_.
 Download the script with a right click on the following link: 

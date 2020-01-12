@@ -26,7 +26,7 @@ import glob
 import hashlib
 
 if float('{}.{}'.format(sys.version_info.major, sys.version_info.minor)) < 3.7:
-    print("Must be using Python version >= 3.5")
+    print("Please use Python version >= 3.7")
     exit(1)
 
 global message
@@ -71,14 +71,7 @@ REPOS = { 'mpir-BrianGladman': { 'repo': 'https://github.com/BrianGladman/mpir.g
                     'branch': 'master',
                     'subdir': ['build.vs19'],
                     'projects': ['lib_mpfr'],
-                    'patches': { #'.*\.vcxproj': [ ( '<PlatformToolset>v141</PlatformToolset>',
-                                 #                   '<PlatformToolset>v142</PlatformToolset>'
-                                 #                 ),
-                                 #                 ( '</ProjectGuid>',
-                                 #                   '</ProjectGuid><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>'
-                                 #                 ),
-                                 #               ],
-                               }
+                    'patches': {},
                   },
           'MerkurNewton': { 'repo': 'https://github.com/wgahr123/MerkurNewton.git',
                     'branch': 'master',
@@ -898,15 +891,6 @@ def build_MerkurNewton(options, compile_command, compile_environ):
         message.info('{} is ready to use'.format(executable), inverse=True)
     else:
         message.error('test failed (md5: {})'.format(cksum))
-
-def check_positive(value):
-    try:
-        ivalue = int(value)
-        if ivalue > 9:
-            return ivalue
-    except:
-        pass
-    message.abort("--accuracy {}: this is an invalid positive int value (min is 10)".format(value))
 
 def parse_commandline():
     """
